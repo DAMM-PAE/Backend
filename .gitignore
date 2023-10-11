@@ -1,0 +1,11 @@
+# Archivo Mac
+.DS_Store
+
+# Carpeta de entorno virtual
+dammvenv
+
+# Cache de python
+__pycache__
+
+# SQLite
+db.sqlite3
