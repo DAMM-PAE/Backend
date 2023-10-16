@@ -1,3 +1,3 @@
 python manage.py makemigrations predictApp
-python manage.py migrate predictApp
+python manage.py migrate
 

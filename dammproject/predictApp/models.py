@@ -20,7 +20,8 @@ class Entregas(models.Model):
 
 class FacturaMensual(models.Model):
     idCliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    fechaFactura = models.DateField()
+    # Opciones para el campo fechaFactura en el formulario ["m-Y"]
+    fechaFactura = models.DateField(["%m-%Y"])
     litrosEntregado = models.FloatField()
 
     def __str__(self) -> str:
