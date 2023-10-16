@@ -49,3 +49,18 @@ python manage.py runserver
 ```bash
 pip freeze > requirements.txt
 ```
+
+### Crear un usuario administrador
+
+```bash
+python manage.py createsuperuser
+```
+
+### Migraciones
+
+Esto se hace cada vez que se modifica el modelo de datos
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
