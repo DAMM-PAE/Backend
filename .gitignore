@@ -10,4 +10,4 @@ __pycache__
 # SQLite
 db.sqlite3
 
-*migration/
+*migrations/

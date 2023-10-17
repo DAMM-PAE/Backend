@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-import json
 from .models import Cliente,FacturaMensual
 import pandas as pd
-import datetime
+from datetime import datetime
 # Create your views here.
 
 def helloworld(request):
@@ -13,8 +12,9 @@ def inicializarBaseDatos(request):
     df = pd.read_excel("static/data/litros_board_22_23.xlsx")  # Reemplaza con la ubicación de tu archivo Excel
     df = df.fillna(0)
     df['fecha'].unique().tolist()
-    df['fecha'] = df['fecha'].replace('ene-22', datetime.datetime(2022, 1, 1))
-
+    df['fecha'] = df['fecha'].replace('ene-22', datetime(2022, 1, 1))
+    df['mes'] = df['fecha'].dt.month
+    df['año'] = df['fecha'].dt.year
 
     for i in range(len(df)):
         cliente = None
@@ -23,7 +23,8 @@ def inicializarBaseDatos(request):
             cliente.save()
         else:
             cliente = Cliente.objects.get(id=df["cliente"][i])
-        factura = FacturaMensual(idCliente=cliente, fechaFactura=df["fecha"][i], litrosEntregado=df["litros"][i])
+        
+        factura = FacturaMensual(idCliente=cliente, fechaFactura=datetime(df['año'][i].item(),df['mes'][i].item(),1), litrosEntregado=df["litros"][i])
         factura.save()
     return HttpResponse("Base de datos inicializada")
     

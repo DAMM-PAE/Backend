@@ -7,7 +7,6 @@ class Cliente(models.Model):
     direccion = models.CharField(max_length=50,null=True)
     tipoBar = models.CharField(max_length=50,null=True)
     codigoPostal = models.IntegerField(null=True)
-
     def __str__(self) -> str:
         return self.nombre
 
@@ -21,7 +20,7 @@ class Entregas(models.Model):
 class FacturaMensual(models.Model):
     idCliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     # Opciones para el campo fechaFactura en el formulario ["m-Y"]
-    fechaFactura = models.DateField(["%m-%Y"])
+    fechaFactura = models.DateField(["%m-%yy"])
     litrosEntregado = models.FloatField()
 
     def __str__(self) -> str:
