@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.core import serializers
+from django.forms.models import model_to_dict
 from .models import Cliente,FacturaMensual
 import pandas as pd
 from datetime import datetime
+import json
 # Create your views here.
 
 def helloworld(request):
@@ -28,3 +31,13 @@ def inicializarBaseDatos(request):
         factura.save()
     return HttpResponse("Base de datos inicializada")
     
+def getClientes(request):
+    nombres = Cliente.objects.values_list('nombre', flat=True)
+    nombres = list(nombres)
+    return HttpResponse(json.dumps(nombres), content_type='application/json')
+
+def getFacturas(request, nombreCliente):
+    cliente = Cliente.objects.get(nombre=nombreCliente)
+    facturas = FacturaMensual.objects.filter(idCliente=cliente)
+    facturas = serializers.serialize('json', facturas)   
+    return HttpResponse(facturas, content_type='application/json')
