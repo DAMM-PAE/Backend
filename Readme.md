@@ -49,3 +49,41 @@ python manage.py runserver
 ```bash
 pip freeze > requirements.txt
 ```
+
+### Crear un usuario administrador
+
+```bash
+python manage.py createsuperuser
+```
+
+### Migraciones
+
+Esto se hace cada vez que se modifica el modelo de datos
+
+```bash
+python manage.py makemigrations <nombre_app>
+```
+
+```bash
+python manage.py migrate
+```
+
+### Carpeta dammproject/utils
+
+En esta carpeta se encuentran un script para limpiar la base de datos(TODOS LOS DATOS) y otro para inicializar la base de datos con datos de prueba.
+
+### Cargar datos de prueba
+
+```bash
+http://127.0.0.1:8000/inicializarBaseDatos/
+```
+
+De esta manera se cargan los datos de prueba en la base de datos.
+
+### Admin
+
+```bash
+http://127.0.0.1:8000/admin/
+```
+
+para acceder al panel de administración de django.
