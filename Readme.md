@@ -72,7 +72,6 @@ python manage.py migrate
 
 En esta carpeta se encuentran un script para limpiar la base de datos(TODOS LOS DATOS) y otro para inicializar la base de datos con datos de prueba.
 
-
 ### Cargar datos de prueba
 
 ```bash
