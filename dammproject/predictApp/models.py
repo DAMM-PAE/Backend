@@ -4,6 +4,8 @@ from django.db import models
 class Cliente(models.Model):
     id = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=50)
+    provincia = models.CharField(max_length=50,null=True)
+    ciudad = models.CharField(max_length=50,null=True)
     direccion = models.CharField(max_length=50,null=True)
     tipoBar = models.CharField(max_length=50,null=True)
     codigoPostal = models.IntegerField(null=True)
@@ -20,7 +22,7 @@ class Entregas(models.Model):
 class FacturaMensual(models.Model):
     idCliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     # Opciones para el campo fechaFactura en el formulario ["m-Y"]
-    fechaFactura = models.DateField(["%m-%yy"])
+    fechaFactura = models.DateField()
     litrosEntregado = models.FloatField()
 
     def __str__(self) -> str:
