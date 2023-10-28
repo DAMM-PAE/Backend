@@ -12,6 +12,10 @@ class BarSerializer(serializers.ModelSerializer):
     tipoBar = serializers.CharField(required=False)
 
     def create(self, validated_data):
+        # Create new Bar with unique nombre
+        name = validated_data.get('nombre')
+        if Bar.objects.filter(nombre=name).exists():
+            raise serializers.ValidationError("Bar with name " + name + " already exists")
         return Bar.objects.create(**validated_data)
     
     def update(self, instance, validated_data):
