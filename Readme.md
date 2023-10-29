@@ -44,12 +44,6 @@ ir a la carpeta dammproject donde se encuentra el archivo requirements.txt:
 pip install -r requirements.txt
 ```
 
-### Nuevas dependencias
-
-```bash
-pip freeze > requirements.txt
-```
-
 ### Crear un usuario administrador
 
 ```bash
@@ -61,7 +55,7 @@ python manage.py createsuperuser
 Esto se hace cada vez que se modifica el modelo de datos
 
 ```bash
-python manage.py makemigrations <nombre_app>
+python manage.py makemigrations predictBeers
 ```
 
 ```bash
@@ -74,6 +68,12 @@ En la carpeta dammproject donde se encuentra el archivo manage.py:
 
 ```bash
 python manage.py runserver
+```
+
+### Nuevas dependencias
+
+```bash
+pip freeze > requirements.txt
 ```
 
 ### Carpeta dammproject/utils
