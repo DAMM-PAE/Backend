@@ -4,6 +4,15 @@ from rest_framework.response import Response
 from rest_framework import status
 from predictBeers.models import Bar, Entregas, FacturaMensual, IOT, Prediccion
 from predictBeers.serializers import BarSerializer, EntregasSerializer, FacturaMensualSerializer, IOTSerializer, PrediccionSerializer
+from .dataInit.listUser import initList
+from dammproject.dammproject import settings
+class InitDataBase(APIView):
+    """
+    List all users, or create a new user.
+    """
+    def get(self, request, format=None):
+        initList(settings.BASE_DIR + "/static/data/llistat.xlsx")
+        return Response(status=status.HTTP_200_OK)
 
 class BarList(APIView):
     """
