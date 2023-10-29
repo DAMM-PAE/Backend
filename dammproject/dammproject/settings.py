@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "predictApp",
+    "predictBeers",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [

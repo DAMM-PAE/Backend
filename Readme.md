@@ -7,13 +7,13 @@
 #### Windows
 
 ```bash
-py -m venv dammvenv
-````
+python3.9 -m venv dammvenv
+```
 
 #### Linux
 
 ```bash
-python -m venv dammvenv
+python3.9 -m venv dammvenv
 ```
 
 ### Activar entorno virtual (mirar cada vez que se abre una nueva terminal)
@@ -30,10 +30,36 @@ Linux:
 source dammvenv/bin/activate
 ```
 
+### Actualizar pip
+
+```bash
+python -m pip install --upgrade pip
+```
+
 ### Instalar dependencias (mirar cada vez que se modifica el archivo requirements.txt)
+
+ir a la carpeta dammproject donde se encuentra el archivo requirements.txt:
 
 ```bash
 pip install -r requirements.txt
+```
+
+### Crear un usuario administrador
+
+```bash
+python manage.py createsuperuser
+```
+
+### Migraciones
+
+Esto se hace cada vez que se modifica el modelo de datos
+
+```bash
+python manage.py makemigrations predictBeers
+```
+
+```bash
+python manage.py migrate
 ```
 
 ### Arrancar el servidor
@@ -48,24 +74,6 @@ python manage.py runserver
 
 ```bash
 pip freeze > requirements.txt
-```
-
-### Crear un usuario administrador
-
-```bash
-python manage.py createsuperuser
-```
-
-### Migraciones
-
-Esto se hace cada vez que se modifica el modelo de datos
-
-```bash
-python manage.py makemigrations <nombre_app>
-```
-
-```bash
-python manage.py migrate
 ```
 
 ### Carpeta dammproject/utils
