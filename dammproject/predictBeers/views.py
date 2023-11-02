@@ -221,3 +221,47 @@ class PrediccionList(APIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             print(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+import pandas as pd 
+from .serializers import UploadSerializer
+from rest_framework.viewsets import ViewSet
+class UploadExcel(ViewSet):
+    """
+    Upload and process an Excel file to update the list of bars.
+    """
+    serializer_class = UploadSerializer
+    def list(self, request):
+        return Response(status=status.HTTP_200_OK, data={"message": "Upload an Excel file to update the list of bars."})
+    
+    def create(self, request):
+        file = request.FILES.get('file') 
+        
+        if not file:
+            return Response({"error": "No file uploaded"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not file.name.endswith('.xls') and not file.name.endswith('.xlsx'):
+            return Response({"error": "Invalid file format. Only Excel files are allowed."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            df = pd.read_excel(file)
+            # Assuming your Excel file has columns 'name', 'location', etc. matching your Bar model
+            # You can update the bars based on the data in the Excel file.
+            for index, row in df.iterrows():
+                bar_data = {
+                    'nombre': row['nombre'],
+                    'direccion': row['direccion'],
+                    'numeroCalle': row['numeroCalle'],
+                    'tipoBar': row['tipoBar'],
+                    'ciudad': row['ciudad'],
+                    'provincia': row['provincia'],
+                    # Add other columns as needed
+                }
+                serializer = BarSerializer(data=bar_data)
+                if serializer.is_valid():
+                    serializer.save()
+                else:
+                    print(f"Error processing row {index}: {serializer.errors}")
+            return Response({"message": "Excel file processed successfully"}, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
