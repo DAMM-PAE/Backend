@@ -4,7 +4,55 @@ from rest_framework.response import Response
 from rest_framework import status
 from predictBeers.models import Bar, Entregas, FacturaMensual, IOT, Prediccion
 from predictBeers.serializers import BarSerializer, EntregasSerializer, FacturaMensualSerializer, IOTSerializer, PrediccionSerializer
+import pandas as pd
+import datetime
 
+def initListaC():
+        df = pd.read_excel('static/data/llistat.xlsx')
+
+        for _, row in df.iterrows():
+            if Bar.objects.filter(nom=row['nombre']).exists():
+                continue
+            bar = Bar.objects.create(nom=row['nombre'],ciutat=row['ciudad'],direccio=row['direccion'],numCarrer=row['numeroCalle'],tipudBar=row['tipoBar'])
+            bar.save()
+
+def iniListaBoard():
+        df = pd.read_excel('static/data/litros_board_22_23.xlsx')
+        df = df.fillna(0)
+        #df['fecha'] = df['fecha'].replace('ene-22', datetime.datetime(2022, 1, 1))
+
+        for _, row in df.iterrows():
+            try:
+                bar = Bar.objects.filter(nom=row['cliente_nom'])
+                
+                if not bar.exists():
+                    bar = Bar.objects.create(nom = row['cliente_nom'])
+                    bar.save()
+                else:
+                    bar = bar[0]
+                año = row['fecha'].year
+                mes = row['fecha'].month
+                dia = row['fecha'].day
+                fecha = datetime.datetime(año,mes,dia)
+                print(fecha)
+                print(FacturaMensual.objects.filter(idCliente=bar,fechaFactura=fecha).exists())
+                if FacturaMensual.objects.filter(idCliente=bar,fechaFactura=fecha).exists():
+                    continue
+
+                factura = FacturaMensual.objects.create(idCliente=bar,fechaFactura=fecha,litrosEntregado=row['litros'])
+                factura.save()
+            except:
+                print("Error en la fila: ", row)
+                continue
+    
+            
+
+class InitData(APIView):
+    def get(self,request):
+        initListaC()
+        iniListaBoard()
+        return Response(status=status.HTTP_200_OK)
+        
 
 class BarList(APIView):
     """
@@ -51,6 +99,7 @@ class BarDetail(APIView):
         bar = self.get_object(pk)
         bar.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class EntregasList(APIView):
     """

@@ -1,8 +1,8 @@
 from django.urls import path
 from . import views
-from .views import UploadExcel
+
 urlpatterns = [
-    path('init/', views.InitDataBase.as_view()),
+
     path('bars/', views.BarList.as_view()),
     path('bars/<int:pk>/', views.BarDetail.as_view()),
     path('entregas/', views.EntregasList.as_view()),
@@ -11,6 +11,5 @@ urlpatterns = [
     path('facturamensual/<int:pk>/', views.FacturaMensualDetail.as_view()),
     path('iot/', views.IOTList.as_view()),
     path('iot/<int:pk>/', views.IOTDetail.as_view()),
-    path('prediccion/', views.PrediccionList.as_view()),
-  
+    path('init/', views.InitData.as_view()),
 ]

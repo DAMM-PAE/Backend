@@ -15,7 +15,6 @@ class Bar(models.Model):
     longitud = models.FloatField(null=True)
     def __str__(self) -> str:
         return self.nom
-
 class Entregas(models.Model):
     idCliente = models.ForeignKey(Bar, on_delete=models.CASCADE)
     fechaPedido = models.DateField()
