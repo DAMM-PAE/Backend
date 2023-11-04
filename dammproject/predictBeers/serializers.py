@@ -3,29 +3,31 @@ from rest_framework import serializers
 
 class BarSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
-    nombre = serializers.CharField(required=True)
+    nom = serializers.CharField(required=True)
     provincia = serializers.CharField(required=False)
-    ciudad = serializers.CharField(required=False)
-    codigoPostal = serializers.IntegerField(required=False)
-    direccion = serializers.CharField(required=False)
-    numeroCalle = serializers.CharField(required=False)
-    tipoBar = serializers.CharField(required=False)
+    ciutat = serializers.CharField(required=False)
+    codiPostal = serializers.IntegerField(required=False)
+    direccio = serializers.CharField(required=False)
+    numCarrer = serializers.CharField(required=False)
+    tipusBar = serializers.CharField(required=False)
+    latitud = serializers.FloatField(required=False)
+    longitud = serializers.FloatField(required=False)
 
     def create(self, validated_data):
         # Create new Bar with unique nombre
-        name = validated_data.get('nombre')
-        if Bar.objects.filter(nombre=name).exists():
+        name = validated_data.get('nom')
+        if Bar.objects.filter(nom=name).exists():
             raise serializers.ValidationError("Bar with name " + name + " already exists")
         return Bar.objects.create(**validated_data)
     
     def update(self, instance, validated_data):
-        instance.nombre = validated_data.get('nombre', instance.nombre)
+        instance.nom = validated_data.get('nom', instance.nom)
         instance.provincia = validated_data.get('provincia', instance.provincia)
-        instance.ciudad = validated_data.get('ciudad', instance.ciudad)
-        instance.codigoPostal = validated_data.get('codigoPostal', instance.codigoPostal)
-        instance.direccion = validated_data.get('direccion', instance.direccion)
-        instance.numeroCalle = validated_data.get('numeroCalle', instance.numeroCalle)
-        instance.tipoBar = validated_data.get('tipoBar', instance.tipoBar)
+        instance.ciutat = validated_data.get('ciutat', instance.ciutat)
+        instance.codiPostal = validated_data.get('codiPostal', instance.codiPostal)
+        instance.direccio = validated_data.get('direccio', instance.direccio)
+        instance.numCarrer = validated_data.get('numCarrer', instance.numCarrer)
+        instance.tipusBar = validated_data.get('tipusBar', instance.tipusBar)
         instance.save()
         return instance
 

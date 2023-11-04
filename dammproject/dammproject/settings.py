@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "predictApp",
     "predictBeers",
     "rest_framework",
 ]
@@ -125,5 +124,3 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
-DATE_INPUT_FORMATS = ["%m-%yy"]
