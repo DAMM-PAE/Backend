@@ -12,6 +12,5 @@ urlpatterns = [
     path('iot/', views.IOTList.as_view()),
     path('iot/<int:pk>/', views.IOTDetail.as_view()),
     path('prediccion/', views.PrediccionList.as_view()),
-    path('upload/', UploadExcel.as_view({'post': 'create', 'get': 'list'})),
-    #path('prediccion/<int:pk>/', views.PrediccionDetail.as_view()),
+  
 ]

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "predictBeers",
     "rest_framework",
+    "import_export"
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,11 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+
+DEFAULT_PERMISSION_CLASSES: [
+        'rest_framework.permissions.AllowAny',
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.FormParser',
+    ]
+#DEFAULT_SCHEMA_CLASS: 'rest_framework.schemas.coreapi.AutoSchema'
