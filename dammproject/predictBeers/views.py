@@ -7,6 +7,19 @@ from predictBeers.serializers import BarSerializer, EntregasSerializer, FacturaM
 import pandas as pd
 import datetime
 
+def dateParser(date):
+
+    if type(date) == str:
+        date = date.split(".")
+        año = int(date[2])
+        mes = int(date[1])
+        dia = int(date[0])
+        return datetime.datetime(año,mes,dia)
+    año = date.year
+    mes = date.month
+    dia = date.day
+    return datetime.datetime(año,mes,dia)
+
 def initListaC():
         df = pd.read_excel('static/data/llistat.xlsx')
 
@@ -30,10 +43,8 @@ def iniListaBoard():
                     bar.save()
                 else:
                     bar = bar[0]
-                año = row['fecha'].year
-                mes = row['fecha'].month
-                dia = row['fecha'].day
-                fecha = datetime.datetime(año,mes,dia)
+              
+                fecha = dateParser(row['fecha'])
                 if FacturaMensual.objects.filter(idCliente=bar,fechaFactura=fecha).exists():
                     continue
 
@@ -42,13 +53,40 @@ def iniListaBoard():
             except:
                 print("Error en la fila: ", row)
                 continue
+
+def initLista2022():
+    df = pd.read_excel('static/data/2022.xlsx')
+    df = df.fillna(0)
+    for _, row in df.iterrows():
+        try:
+            bar = Bar.objects.filter(nom=row['Nombre 1'])
+            if not bar.exists():
+                bar = Bar.objects.create(nom = row['Nombre 1'])
+                bar.save()
+            else:
+                bar = bar[0]
+            fechaPedido = dateParser(row['Sal.mcia.real'])
+            fechaEntrega = dateParser(row['F.Descarga'])
+            entregas = Entregas.objects.filter(idCliente=bar,fechaPedido=fechaPedido)
+            if entregas.exists():
+                continue
+            entrega = Entregas.objects.create(
+                    idCliente=bar,
+                    fechaPedido=fechaPedido,
+                    fechaEntrega=fechaEntrega,
+                    litrosEntregados=row['Cantidad entrega'])
+            entrega.save()
+        except:
+            print("Error en la fila: ", row)
+    return
     
             
 
 class InitData(APIView):
     def get(self,request):
-        initListaC()
-        iniListaBoard()
+        # initListaC()
+        # iniListaBoard()
+        initLista2022()
         return Response(status=status.HTTP_200_OK)
         
 
