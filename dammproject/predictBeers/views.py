@@ -34,8 +34,6 @@ def iniListaBoard():
                 mes = row['fecha'].month
                 dia = row['fecha'].day
                 fecha = datetime.datetime(año,mes,dia)
-                print(fecha)
-                print(FacturaMensual.objects.filter(idCliente=bar,fechaFactura=fecha).exists())
                 if FacturaMensual.objects.filter(idCliente=bar,fechaFactura=fecha).exists():
                     continue
 
