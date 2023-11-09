@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "predictBeers",
     "rest_framework",
-    "rest_framework_swagger",
 ]
 
 MIDDLEWARE = [

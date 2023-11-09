@@ -143,10 +143,10 @@ def iniListaSF():
 
 class InitData(APIView):
     def get(self, request):
-        # initListaC()
-        # iniListaBoard()
-        # initLista2022()
-        iniListaSF()
+        initListaC()
+        iniListaBoard()
+        initLista2022()
+        #iniListaSF()
         return Response(status=status.HTTP_200_OK)
 
 
