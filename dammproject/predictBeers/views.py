@@ -87,58 +87,28 @@ def initLista2022():
         except:
             print("Error en la fila: ", row)
 
-df = None
-def initdata3():
-    global df
-    if df is None:
-        df = pd.read_excel('static/data/SF_CUENTAS_202310050830_CSV.xlsx')
-        df = df.fillna(0)
+# df = None
+# def initdata3():
+#     global df
+#     if df is None:
+#         df = pd.read_excel('static/data/SF_CUENTAS_202310050830_CSV.xlsx')
+#         df = df.fillna(0)
     
 
 def iniListaSF():
-    # df = pd.read_excel('static/data/SF_CUENTAS_202310050830_CSV.xlsx')
-    # df = df.fillna(0)
-    initdata3()
+    df = pd.read_excel('static/data/SF_CUENTAS_202310050830_CSV.xlsx')
+    df = df.fillna(0)
+    # initdata3()
     for _, row in df.iterrows():
         bar = Bar.objects.filter(nom=row['NAME'],                            )
-        if not bar.exists():
-            bar = Bar.objects.create(nom=row['NAME'],
-                                        provincia=row['STATE'],
-                                        ciutat=row['CITY'],
-                                        codiPostal=row['POSTALCODE'],
-                                        latitud=row['BILLINGLATITUDE'],
-                                        longitud=row['BILLINGLONGITUDE'],)
-            bar.save()
-        else:
+        if bar.exists():
             bar = bar[0]
             bar.provincia = row['STATE']
             bar.ciutat = row['CITY']
             bar.codiPostal = row['POSTALCODE']
-            bar.latitud = row['BILLINGLATITUDE']
-            bar.longitud = row['BILLINGLONGITUDE']
+            bar.latitud = row['BILLINGLATITUDE']/1000000
+            bar.longitud = row['BILLINGLONGITUDE']/1000000
             bar.save()
-        # try:
-        #     bar = Bar.objects.filter(nom=row['NAME'],
-        #                              )
-        #     if not bar.exists():
-        #         bar = Bar.objects.create(nom=row['NAME'],
-        #                                  provincia=row['STATE'],
-        #                                  ciutat=row['CITY'],
-        #                                  codiPostal=row['POSTALCODE'],
-        #                                  latitud=row['BILLINGLATITUDE'],
-        #                                  longitud=row['BILLINGLONGITUDE'],)
-        #         bar.save()
-        #     else:
-        #         bar = bar[0]
-        #         bar.provincia = row['STATE']
-        #         bar.ciutat = row['CITY']
-        #         bar.codiPostal = row['POSTALCODE']
-        #         bar.latitud = row['BILLINGLATITUDE']
-        #         bar.longitud = row['BILLINGLONGITUDE']
-        #         bar.save()
-
-        # except:
-        #     print("Error en la fila: ", row)
 
 
 class InitData(APIView):
@@ -146,7 +116,7 @@ class InitData(APIView):
         initListaC()
         iniListaBoard()
         initLista2022()
-        #iniListaSF()
+        iniListaSF()
         return Response(status=status.HTTP_200_OK)
 
 

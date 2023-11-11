@@ -10,7 +10,7 @@ class Bar(models.Model):
     codiPostal = models.CharField(max_length=50,null=True)
     direccio = models.CharField(max_length=50,null=True)
     numCarrer = models.CharField(max_length=50,null=True)
-    tipudBar = models.CharField(max_length=50,null=True)
+    tipusBar = models.CharField(max_length=50,null=True)
     latitud = models.FloatField(null=True)
     longitud = models.FloatField(null=True)
     def __str__(self) -> str:
