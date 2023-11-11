@@ -12,11 +12,14 @@ import datetime
 def dateParser(date):
 
     if type(date) == str:
-        date = date.split(".")
-        año = int(date[2])
-        mes = int(date[1])
-        dia = int(date[0])
-        return datetime.datetime(año, mes, dia)
+        try:
+            date = date.split(".")
+            año = int(date[2])
+            mes = int(date[1])
+            dia = int(date[0])
+            return datetime.datetime(año, mes, dia)
+        except:
+            return None
     año = date.year
     mes = date.month
     dia = date.day
