@@ -129,7 +129,7 @@ class BarList(APIView):
     """
 
     def get(self, request, format=None):
-        bars = Bar.objects.all()
+        bars = Bar.objects.exclude(latitud=True, longitud=True)
         serializer = BarSerializer(bars, many=True)
         return Response(serializer.data)
 
