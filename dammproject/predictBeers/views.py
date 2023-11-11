@@ -30,7 +30,7 @@ def initListaC():
         if Bar.objects.filter(nom=row['nombre']).exists():
             continue
         bar = Bar.objects.create(nom=row['nombre'], ciutat=row['ciudad'],
-                                 direccio=row['direccion'], numCarrer=row['numeroCalle'], tipudBar=row['tipoBar'])
+                                 direccio=row['direccion'], numCarrer=row['numeroCalle'], tipusBar=row['tipoBar'])
         bar.save()
 
 
