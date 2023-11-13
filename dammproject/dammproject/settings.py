@@ -137,4 +137,8 @@ REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoS
 
 
 # CORS CONFIG
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = [
+    "http://nattech.fib.upc.edu:40540",
+    "http://localhost:3000",
+    
+]
