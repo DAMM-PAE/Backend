@@ -95,3 +95,13 @@ http://127.0.0.1:8000/admin/
 ```
 
 para acceder al panel de administración de django.
+
+### ngrok
+
+[Descarga](https://dashboard.ngrok.com/get-started/setup)
+
+Tener en cuenta que el puerto que se utiliza es el 8000 y que hay que ejecutar la aplicación para que funcione.
+
+```bash
+ngrok http --domain=manually-pretty-barnacle.ngrok-free.app 8000
+```

@@ -25,9 +25,9 @@ SECRET_KEY = "django-insecure-o!4hc^qjy2w)l-3$t^@76#$+$b&3epefu3#p^t(wvo(-@kh94r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["http://nattech.fib.upc.edu:40540","localhost", "0.0.0.0", "127.0.0.1","*","https://manually-pretty-barnacle.ngrok-free.app"]
 
-
+CSRF_TRUSTED_ORIGINS = ['https://manually-pretty-barnacle.ngrok-free.app','http://nattech.fib.upc.edu:40540']
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "predictApp",
     "predictBeers",
     "rest_framework",
 ]
@@ -125,5 +124,5 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' }
 
-DATE_INPUT_FORMATS = ["%m-%yy"]

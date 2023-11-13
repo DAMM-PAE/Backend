@@ -1,8 +1,10 @@
 from django.urls import path
 from . import views
+# from rest_framework_swagger.views import get_swagger_view
+# schema_view = get_swagger_view(title='Predict Beers API')
 
 urlpatterns = [
-    path('init/', views.InitDataBase.as_view()),
+    # path('', schema_view),
     path('bars/', views.BarList.as_view()),
     path('bars/<int:pk>/', views.BarDetail.as_view()),
     path('entregas/', views.EntregasList.as_view()),
@@ -11,6 +13,5 @@ urlpatterns = [
     path('facturamensual/<int:pk>/', views.FacturaMensualDetail.as_view()),
     path('iot/', views.IOTList.as_view()),
     path('iot/<int:pk>/', views.IOTDetail.as_view()),
-    path('prediccion/', views.PrediccionList.as_view()),
-    #path('prediccion/<int:pk>/', views.PrediccionDetail.as_view()),
+    path('init/', views.InitData.as_view()),
 ]
