@@ -21,7 +21,7 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     #path("", include("predictApp.urls")),
-    path("", lambda req: redirect("api/")),
+    path("", lambda req: redirect("api/bars/")),
     path("admin/", admin.site.urls),
     path("api/", include("predictBeers.urls")),
 

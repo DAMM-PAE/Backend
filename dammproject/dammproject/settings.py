@@ -121,7 +121,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = os.path.join(BASE_DIR, 'static/')
-STATIC_ROOT = STATIC_URL
+
+
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+STATICFILES_DIRS = (
+  os.path.join(SITE_ROOT, '../static/'),
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -130,7 +135,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' }
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3030',
-    'http://localhost:3000',
-]
+
+# CORS CONFIG
+CORS_ORIGIN_ALLOW_ALL = True
