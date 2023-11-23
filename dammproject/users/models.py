@@ -20,7 +20,7 @@ DISCOUNT_CODE_TYPES_CHOICES = [
 
 # Create your models here
 class MyUserManager(BaseUserManager):
-    def create_user(self, email, date_of_birth, password=None):
+    def create_user(self, email,barId, password=None):
         """
         Creates and saves a User with the given email, date of
         birth and password.
@@ -30,14 +30,15 @@ class MyUserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email),
-            date_of_birth=date_of_birth,
+
+            barId=barId,
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, date_of_birth, password=None):
+    def create_superuser(self, email, barId, password=None):
         """
         Creates and saves a superuser with the given email, date of
         birth and password.
@@ -45,7 +46,7 @@ class MyUserManager(BaseUserManager):
         user = self.create_user(
             email,
             password=password,
-            date_of_birth=date_of_birth,
+            barId=barId,
         )
         user.is_admin = True
         user.save(using=self._db)
@@ -58,7 +59,6 @@ class MyUser(AbstractBaseUser):
         unique=True,
     )
     barId = models.ForeignKey(Bar, on_delete=models.CASCADE, null=True, blank=True)
-    date_of_birth = models.DateField()
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     credits = models.PositiveIntegerField(default=100)
