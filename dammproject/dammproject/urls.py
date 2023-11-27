@@ -24,5 +24,7 @@ urlpatterns = [
     path("", lambda req: redirect("api/bars/")),
     path("admin/", admin.site.urls),
     path("api/", include("predictBeers.urls")),
+    path('authentication/', include('dj_rest_auth.urls')),
+    path('user/', include('users.urls')),
 
 ]
