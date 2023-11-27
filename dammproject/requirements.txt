@@ -11,11 +11,6 @@ certifi==2023.7.22
 cffi==1.16.0
 charset-normalizer==3.3.0
 comm==0.1.4
-conda==23.9.0
-conda-content-trust==0.2.0
-conda-libmamba-solver==23.9.1
-conda-package-handling==2.2.0
-conda_package_streaming==0.9.0
 contourpy==1.2.0
 crypto==1.4.1
 cryptography==41.0.5
