@@ -12,6 +12,8 @@ class BarSerializer(serializers.ModelSerializer):
     tipusBar = serializers.CharField(required=False)
     latitud = serializers.FloatField(required=False)
     longitud = serializers.FloatField(required=False)
+    dataPrediccio = serializers.DateField(required=False)
+    iotPercent = serializers.FloatField(required=False)
 
     def create(self, validated_data):
         # Create new Bar with unique nombre
@@ -28,6 +30,8 @@ class BarSerializer(serializers.ModelSerializer):
         instance.direccio = validated_data.get('direccio', instance.direccio)
         instance.numCarrer = validated_data.get('numCarrer', instance.numCarrer)
         instance.tipusBar = validated_data.get('tipusBar', instance.tipusBar)
+        instance.dataPrediccio = validated_data.get('dataPrediccio', instance.dataPrediccio)
+        instance.iotPercent = validated_data.get('iotPercent', instance.iotPercent)
         instance.save()
         return instance
 

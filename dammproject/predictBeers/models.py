@@ -13,6 +13,8 @@ class Bar(models.Model):
     tipusBar = models.CharField(max_length=50,null=True)
     latitud = models.FloatField(null=True)
     longitud = models.FloatField(null=True)
+    dataPrediccio = models.DateField(null=True)
+    iotPercent = models.FloatField(null=True)
     def __str__(self) -> str:
         return self.nom
 class Entregas(models.Model):

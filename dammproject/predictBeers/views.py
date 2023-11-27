@@ -6,7 +6,8 @@ from predictBeers.models import Bar, Entregas, FacturaMensual, IOT, Prediccion
 from predictBeers.serializers import BarSerializer, EntregasSerializer, FacturaMensualSerializer, IOTSerializer, PrediccionSerializer
 import pandas as pd
 import datetime
-
+from datetime import timedelta
+import random 
 
 
 def dateParser(date):
@@ -123,6 +124,29 @@ class InitData(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
+def updatePredicciones(bar):
+    current_datetime = datetime.datetime.now()
+    one_week_later = current_datetime + timedelta(days=random.randint(1, 14))
+    one_week_later = one_week_later.date()
+    
+
+    if bar.dataPrediccio is None:
+        bar.dataPrediccio = one_week_later
+        bar.save()
+    if bar.dataPrediccio < current_datetime.date():
+        bar.dataPrediccio = one_week_later
+        bar.save()
+
+def updateIOT(bar):
+    liters = random.randint(0, 100)
+    if bar.iotPercent is None:
+        bar.iotPercent = liters
+        bar.save()
+    if bar.iotPercent > liters:
+        bar.iotPercent = liters
+        bar.save()
+    
+
 class BarList(APIView):
     """
     List all bars, or create a new bar.
@@ -130,6 +154,10 @@ class BarList(APIView):
 
     def get(self, request, format=None):
         bars = Bar.objects.exclude(latitud=True, longitud=True)
+        for bar in bars:
+            updatePredicciones(bar)
+            updateIOT(bar)
+        
         serializer = BarSerializer(bars, many=True)
         return Response(serializer.data)
 
@@ -140,6 +168,7 @@ class BarList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class BarDetail(APIView):
@@ -155,6 +184,9 @@ class BarDetail(APIView):
 
     def get(self, request, pk, format=None):
         bar = self.get_object(pk)
+        updatePredicciones(bar)
+        updateIOT(bar)
+        
         serializer = BarSerializer(bar)
         return Response(serializer.data)
 
