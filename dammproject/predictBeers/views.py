@@ -138,13 +138,35 @@ def updatePredicciones(bar):
         bar.save()
 
 def updateIOT(bar):
-    liters = random.randint(0, 100)
-    if bar.iotPercent is None:
-        bar.iotPercent = liters
+    if bar.hasIot is None:
+        probability = random.randint(0,100)
+        if probability > 70:
+            bar.hasIot = True
+        else:
+            bar.hasIot = False
         bar.save()
-    if bar.iotPercent > liters:
-        bar.iotPercent = liters
-        bar.save()
+
+    if bar.hasIot:
+        if bar.iotPercent is None:
+            bar.iotPercent = random.randint(0,100)
+            bar.save()
+        if bar.iotPercent > 100:
+            bar.iotPercent = 100
+            bar.save()
+        if bar.iotPercent < 0:
+            bar.iotPercent = 0
+            bar.save()
+        return
+    
+   
+
+    # liters = random.randint(0, 100)
+    # if bar.iotPercent is None:
+    #     bar.iotPercent = liters
+    #     bar.save()
+    # if bar.iotPercent > liters:
+    #     bar.iotPercent = liters
+    #     bar.save()
     
 
 class BarList(APIView):

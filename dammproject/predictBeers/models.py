@@ -14,6 +14,7 @@ class Bar(models.Model):
     latitud = models.FloatField(null=True)
     longitud = models.FloatField(null=True)
     dataPrediccio = models.DateField(null=True)
+    hasIot = models.BooleanField(null=True)
     iotPercent = models.FloatField(null=True)
     def __str__(self) -> str:
         return self.nom
