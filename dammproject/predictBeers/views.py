@@ -148,7 +148,7 @@ def updateIOT(bar):
 
     if bar.hasIot:
         if bar.iotPercent is None:
-            bar.iotPercent = random.randint(0,100)
+            bar.iotPercent =round(random.random()*100,2)
             bar.save()
         if bar.iotPercent > 100:
             bar.iotPercent = 100
@@ -158,7 +158,10 @@ def updateIOT(bar):
             bar.save()
         return
     
-   
+    else:
+        bar.iotPercent = 0.0
+        bar.save()
+        return
 
     # liters = random.randint(0, 100)
     # if bar.iotPercent is None:
@@ -167,8 +170,6 @@ def updateIOT(bar):
     # if bar.iotPercent > liters:
     #     bar.iotPercent = liters
     #     bar.save()
-    
-
 class BarList(APIView):
     """
     List all bars, or create a new bar.
