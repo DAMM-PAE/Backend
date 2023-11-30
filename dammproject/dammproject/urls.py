@@ -29,3 +29,7 @@ urlpatterns = [
     path('user/', include('users.urls')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+print(settings.STATIC_URL)
+for url in urlpatterns:
+    print(url)
