@@ -6,8 +6,25 @@ from predictBeers.models import Bar, Entregas, FacturaMensual, IOT, Prediccion
 from predictBeers.serializers import BarSerializer, EntregasSerializer, FacturaMensualSerializer, IOTSerializer, PrediccionSerializer
 import pandas as pd
 import datetime
-from datetime import timedelta
+from datetime import date, timedelta
 import random 
+
+from rest_framework.decorators import api_view
+
+@api_view(('GET',))
+def dataUpdate(request,id):
+
+    if request.method == 'GET':
+        bar = Bar.objects.get(id=id)
+        newDate = date.today() + timedelta(days=1)
+    
+        bar.dataPrediccio = newDate
+
+        bar.save()
+        result = newDate
+        # result = BarSerializer(bar)
+        return Response(status=status.HTTP_200_OK,data=result)
+    
 
 
 def dateParser(date):
