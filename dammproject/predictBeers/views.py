@@ -2,8 +2,8 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from predictBeers.models import Bar, Entregas, FacturaMensual, IOT, Prediccion
-from predictBeers.serializers import BarSerializer, EntregasSerializer, FacturaMensualSerializer, IOTSerializer, PrediccionSerializer
+from predictBeers.models import Bar, Entregas, FacturaMensual, Prediccion
+from predictBeers.serializers import BarSerializer, EntregasSerializer, FacturaMensualSerializer, PrediccionSerializer
 import pandas as pd
 import datetime
 from datetime import date, timedelta
@@ -18,7 +18,7 @@ def dataUpdate(request,id):
         bar = Bar.objects.get(id=id)
         newDate = date.today() + timedelta(days=1)
     
-        bar.dataPrediccio = newDate
+        bar.data = newDate
 
         bar.save()
         result = newDate
@@ -143,40 +143,40 @@ class InitData(APIView):
 
 def updatePredicciones(bar):
     current_datetime = datetime.datetime.now()
-    one_week_later = current_datetime + timedelta(days=random.randint(1, 14))
+    one_week_later = current_datetime + timedelta(days=random.randint(1, 90))
     one_week_later = one_week_later.date()
     
 
-    if bar.dataPrediccio is None:
-        bar.dataPrediccio = one_week_later
+    if bar.data is None:
+        bar.data = one_week_later
         bar.save()
-    if bar.dataPrediccio < current_datetime.date():
-        bar.dataPrediccio = one_week_later
+    if bar.data < current_datetime.date():
+        bar.data = one_week_later
         bar.save()
 
 def updateIOT(bar):
-    if bar.hasIot is None:
+    if bar.iot is None:
         probability = random.randint(0,100)
         if probability > 70:
-            bar.hasIot = True
+            bar.iot = True
         else:
-            bar.hasIot = False
+            bar.iot = False
         bar.save()
 
-    if bar.hasIot:
-        if bar.iotPercent is None:
-            bar.iotPercent =round(random.random()*100,2)
+    if bar.iot:
+        if bar.percentatge is None:
+            bar.percentatge =round(random.random()*100,2)
             bar.save()
-        if bar.iotPercent > 100:
-            bar.iotPercent = 100
+        if bar.percentatge > 100:
+            bar.percentatge = 100
             bar.save()
-        if bar.iotPercent < 0:
-            bar.iotPercent = 0
+        if bar.percentatge < 0:
+            bar.percentatge = 0
             bar.save()
         return
     
     else:
-        bar.iotPercent = 0.0
+        bar.percentatge = 0.0
         bar.save()
         return
 
@@ -349,56 +349,56 @@ class FacturaMensualDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class IOTList(APIView):
+# class IOTList(APIView):
 
-    """
-    List all IOTs, or create a new IOT.
-    """
+#     """
+#     List all IOTs, or create a new IOT.
+#     """
 
-    def get(self, request, format=None):
-        iots = IOT.objects.all()
-        serializer = IOTSerializer(iots, many=True)
-        return Response(serializer.data)
+#     def get(self, request, format=None):
+#         iots = IOT.objects.all()
+#         serializer = IOTSerializer(iots, many=True)
+#         return Response(serializer.data)
 
-    def post(self, request, format=None):
-        serializer = IOTSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        print(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     def post(self, request, format=None):
+#         serializer = IOTSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         print(serializer.errors)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class IOTDetail(APIView):
+# class IOTDetail(APIView):
 
-    """
-    Retrieve, update or delete a IOT instance.
-    """
+#     """
+#     Retrieve, update or delete a IOT instance.
+#     """
 
-    def get_object(self, pk):
-        try:
-            return IOT.objects.get(pk=pk)
-        except IOT.DoesNotExist:
-            raise Http404
+#     def get_object(self, pk):
+#         try:
+#             return IOT.objects.get(pk=pk)
+#         except IOT.DoesNotExist:
+#             raise Http404
 
-    def get(self, request, pk, format=None):
-        iot = self.get_object(pk)
-        serializer = IOTSerializer(iot)
-        return Response(serializer.data)
+#     def get(self, request, pk, format=None):
+#         iot = self.get_object(pk)
+#         serializer = IOTSerializer(iot)
+#         return Response(serializer.data)
 
-    def put(self, request, pk, format=None):
-        iot = self.get_object(pk)
-        serializer = IOTSerializer(iot, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        print(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     def put(self, request, pk, format=None):
+#         iot = self.get_object(pk)
+#         serializer = IOTSerializer(iot, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         print(serializer.errors)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None):
-        iot = self.get_object(pk)
-        iot.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+#     def delete(self, request, pk, format=None):
+#         iot = self.get_object(pk)
+#         iot.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class PrediccionList(APIView):

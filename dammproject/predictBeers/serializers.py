@@ -1,4 +1,4 @@
-from .models import Bar, Entregas, FacturaMensual, IOT, Prediccion
+from .models import Bar, Entregas, FacturaMensual, Prediccion
 from rest_framework import serializers
 
 class BarSerializer(serializers.ModelSerializer):
@@ -12,9 +12,10 @@ class BarSerializer(serializers.ModelSerializer):
     tipusBar = serializers.CharField(required=False)
     latitud = serializers.FloatField(required=False)
     longitud = serializers.FloatField(required=False)
-    dataPrediccio = serializers.DateField(required=False)
-    iotPercent = serializers.FloatField(required=False)
+    data = serializers.DateField(required=False)
 
+    iot = serializers.BooleanField(required=False)
+    percentatge = serializers.FloatField(required=False)
     def create(self, validated_data):
         # Create new Bar with unique nombre
         name = validated_data.get('nom')
@@ -30,9 +31,9 @@ class BarSerializer(serializers.ModelSerializer):
         instance.direccio = validated_data.get('direccio', instance.direccio)
         instance.numCarrer = validated_data.get('numCarrer', instance.numCarrer)
         instance.tipusBar = validated_data.get('tipusBar', instance.tipusBar)
-        instance.dataPrediccio = validated_data.get('dataPrediccio', instance.dataPrediccio)
-        instance.hasIot = validated_data.get('iot', instance.iot)
-        instance.iotPercent = validated_data.get('iotPercent', instance.iotPercent)
+        instance.data = validated_data.get('data', instance.dataPrediccio)
+        instance.iot = validated_data.get('iot', instance.iot)
+        instance.percentatge = validated_data.get('percentatge', instance.iotPercent)
         instance.save()
         return instance
 
@@ -80,24 +81,24 @@ class FacturaMensualSerializer(serializers.ModelSerializer):
         model = FacturaMensual
         fields = "__all__"
 
-class IOTSerializer(serializers.ModelSerializer):
-    idCliente = serializers.PrimaryKeyRelatedField(queryset=Bar.objects.all())
-    fecha = serializers.DateField(required=True)
-    litros = serializers.IntegerField(required=True)
+# class IOTSerializer(serializers.ModelSerializer):
+#     idCliente = serializers.PrimaryKeyRelatedField(queryset=Bar.objects.all())
+#     fecha = serializers.DateField(required=True)
+#     litros = serializers.IntegerField(required=True)
     
-    def create(self, validated_data):
-        return IOT.objects.create(**validated_data)
+#     def create(self, validated_data):
+#         return IOT.objects.create(**validated_data)
     
-    def update(self, instance, validated_data):
-        instance.idCliente = validated_data.get('idCliente', instance.idCliente)
-        instance.fecha = validated_data.get('fecha', instance.fecha)
-        instance.litros = validated_data.get('litros', instance.litros)
-        instance.save()
-        return instance
+#     def update(self, instance, validated_data):
+#         instance.idCliente = validated_data.get('idCliente', instance.idCliente)
+#         instance.fecha = validated_data.get('fecha', instance.fecha)
+#         instance.litros = validated_data.get('litros', instance.litros)
+#         instance.save()
+#         return instance
     
-    class Meta:
-        model = IOT
-        fields = "__all__"
+#     class Meta:
+#         model = IOT
+#         fields = "__all__"
 
 class PrediccionSerializer(serializers.ModelSerializer):
     

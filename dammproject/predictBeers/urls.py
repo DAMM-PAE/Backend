@@ -12,7 +12,7 @@ urlpatterns = [
     path('entregas/<int:pk>/', views.EntregasDetail.as_view()),
     path('facturamensual/', views.FacturaMensualList.as_view()),
     path('facturamensual/<int:pk>/', views.FacturaMensualDetail.as_view()),
-    path('iot/', views.IOTList.as_view()),
-    path('iot/<int:pk>/', views.IOTDetail.as_view()),
+    # path('iot/', views.IOTList.as_view()),
+    # path('iot/<int:pk>/', views.IOTDetail.as_view()),
     path('init/', views.InitData.as_view()),
 ]

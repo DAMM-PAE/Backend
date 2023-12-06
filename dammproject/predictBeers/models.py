@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.conf import settings
 
 # Create your models here.
 class Bar(models.Model):
@@ -13,11 +13,12 @@ class Bar(models.Model):
     tipusBar = models.CharField(max_length=50,null=True)
     latitud = models.FloatField(null=True)
     longitud = models.FloatField(null=True)
-    dataPrediccio = models.DateField(null=True)
-    hasIot = models.BooleanField(null=True)
-    iotPercent = models.FloatField(null=True)
+    data = models.DateField(null=True)
+    iot = models.BooleanField(null=True)
+    percentatge = models.FloatField(null=True)
     def __str__(self) -> str:
         return self.nom
+
 class Entregas(models.Model):
     idCliente = models.ForeignKey(Bar, on_delete=models.CASCADE)
     fechaPedido = models.DateField()
@@ -34,12 +35,12 @@ class FacturaMensual(models.Model):
     def __str__(self) -> str:
         return self.idCliente.nom + " " + str(self.fechaFactura)
 
-class IOT(models.Model):
-    idCliente = models.ForeignKey(Bar, on_delete=models.CASCADE)
-    fecha = models.DateField()
-    litros = models.IntegerField()
-    def __str__(self) -> str:
-        return self.idCliente.nom + " " + str(self.fecha)
+# class IOT(models.Model):
+#     idCliente = models.ForeignKey(Bar, on_delete=models.CASCADE)
+#     fecha = models.DateField()
+#     litros = models.IntegerField()
+#     def __str__(self) -> str:
+#         return self.idCliente.nom + " " + str(self.fecha)
     
 class Prediccion(models.Model):
     id = models.AutoField(primary_key=True)
