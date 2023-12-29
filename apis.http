@@ -1,7 +1,0 @@
-GET http://127.0.0.1:8000/inicializarBaseDatos/
-
-###
-GET http://localhost:8000/api/lista-clientes
-
-###
-GET http://localhost:8000/api/facturas/BARBARA ANN II

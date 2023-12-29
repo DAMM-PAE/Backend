@@ -1,8 +1,0 @@
-version: '3'
-
-services:
-  web:
-    image: "dammproject"
-    build: .
-    ports:
-      - "8000:8000"
