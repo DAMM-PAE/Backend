@@ -347,6 +347,16 @@ class FacturaMensualDetail(APIView):
         facturaMensual = self.get_object(pk)
         facturaMensual.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+@api_view(('GET',))
+def getBarTypes(request):
+    if request.method == 'GET':
+        bars = Bar.objects.all()
+        types = []
+        for bar in bars:
+            if bar.tipusBar not in types:
+                types.append(bar.tipusBar)
+        return Response(status=status.HTTP_200_OK,data=types)
 
 
 # class IOTList(APIView):

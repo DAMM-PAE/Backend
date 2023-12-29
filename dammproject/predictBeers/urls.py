@@ -8,6 +8,7 @@ urlpatterns = [
     path('bars/', views.BarList.as_view()),
     path('bars/<int:pk>/', views.BarDetail.as_view()),
     path('bars/<int:id>/update', views.dataUpdate),
+    path('bars/types',views.getBarTypes),
     path('entregas/', views.EntregasList.as_view()),
     path('entregas/<int:pk>/', views.EntregasDetail.as_view()),
     path('facturamensual/', views.FacturaMensualList.as_view()),
