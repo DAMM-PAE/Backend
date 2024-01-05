@@ -306,7 +306,7 @@ def getBarEntregas(request,pk):
                 return Response(status=status.HTTP_404_NOT_FOUND,data=[])
             return Response(status=status.HTTP_200_OK,data=serializer.data)
         except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_404_NOT_FOUND,data=[])
         
 
 
