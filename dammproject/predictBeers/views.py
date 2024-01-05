@@ -9,7 +9,7 @@ import datetime
 from datetime import date, timedelta
 import random 
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view ,renderer_classes
 
 @api_view(('GET',))
 def dataUpdate(request,id):
@@ -294,6 +294,20 @@ class EntregasDetail(APIView):
         entrega = self.get_object(pk)
         entrega.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(('GET',))
+def getBarEntregas(request,pk):
+    if request.method == 'GET':
+        try:
+            bar = Bar.objects.get(id=pk)
+            entregas = Entregas.objects.filter(idCliente=bar)
+            serializer = EntregasSerializer(entregas, many=True)
+            if serializer.data == []:
+                return Response(status=status.HTTP_404_NOT_FOUND,data=[])
+            return Response(status=status.HTTP_200_OK,data=serializer.data)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
 
 
 class FacturaMensualList(APIView):
