@@ -358,6 +358,21 @@ def getBarTypes(request):
                 types.append(bar.tipusBar)
         return Response(status=status.HTTP_200_OK,data=types)
 
+@api_view(('GET',))
+def trainModel(request,pk):
+    if request.method == 'GET':
+        bar = Bar.objects.get(id=pk)
+        entregas = Entregas.objects.filter(idCliente=bar)
+        for entrega in entregas:
+            print(entrega.fechaPedido)
+        return Response(status=status.HTTP_200_OK,data="Model Trained")
+
+def trainEntregas(entregas):
+    df = pd.DataFrame(columns=['fechaPedido', 'fechaEntrega', 'litrosEntregados'])
+    for entrega in entregas:
+        df = df.append({'fechaPedido': entrega.fechaPedido, 'fechaEntrega': entrega.fechaEntrega, 'litrosEntregados': entrega.litrosEntregados}, ignore_index=True)
+    df.to_csv('static/data/entregas.csv', index=False)
+    
 
 # class IOTList(APIView):
 

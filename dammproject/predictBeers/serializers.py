@@ -31,9 +31,9 @@ class BarSerializer(serializers.ModelSerializer):
         instance.direccio = validated_data.get('direccio', instance.direccio)
         instance.numCarrer = validated_data.get('numCarrer', instance.numCarrer)
         instance.tipusBar = validated_data.get('tipusBar', instance.tipusBar)
-        instance.data = validated_data.get('data', instance.dataPrediccio)
+        instance.data = validated_data.get('data', instance.data)
         instance.iot = validated_data.get('iot', instance.iot)
-        instance.percentatge = validated_data.get('percentatge', instance.iotPercent)
+        instance.percentatge = validated_data.get('percentatge', instance.percentatge)
         instance.save()
         return instance
 
