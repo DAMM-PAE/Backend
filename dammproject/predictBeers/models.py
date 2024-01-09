@@ -16,6 +16,7 @@ class Bar(models.Model):
     data = models.DateField(null=True)
     iot = models.BooleanField(null=True)
     percentatge = models.FloatField(null=True)
+    urgent = models.BooleanField(default=False)
     def __str__(self) -> str:
         return self.nom
 

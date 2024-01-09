@@ -17,9 +17,8 @@ def dataUpdate(request,id):
     if request.method == 'GET':
         bar = Bar.objects.get(id=id)
         newDate = date.today() + timedelta(days=1)
-    
+        bar.urgent = True
         bar.data = newDate
-
         bar.save()
         result = newDate
         # result = BarSerializer(bar)
@@ -256,7 +255,12 @@ class EntregasList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
+        idClient = request.data['idCliente']
         serializer = EntregasSerializer(data=request.data)
+        bar = Bar.objects.get(id=idClient)
+        updatePredicciones(bar)
+        bar.urgent = False
+        bar.save()
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
