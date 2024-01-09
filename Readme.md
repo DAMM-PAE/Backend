@@ -1,5 +1,9 @@
 # DAMM-PAE BACKEND
 
+## Miembros del equipo
+
+LUCAS ARES PÉREZ  JOEL FERNÁNDEZ ABAD  HAOPENG LIN YE
+
 ## Setup del proyecto
 
 ### Crear entorno virtual
