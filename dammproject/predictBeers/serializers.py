@@ -30,6 +30,8 @@ class BarSerializer(serializers.ModelSerializer):
         instance.codiPostal = validated_data.get('codiPostal', instance.codiPostal)
         instance.direccio = validated_data.get('direccio', instance.direccio)
         instance.numCarrer = validated_data.get('numCarrer', instance.numCarrer)
+        instance.latitud = validated_data.get('latitud', instance.latitud)
+        instance.longitud = validated_data.get('longitud', instance.longitud)
         instance.tipusBar = validated_data.get('tipusBar', instance.tipusBar)
         instance.data = validated_data.get('data', instance.data)
         instance.iot = validated_data.get('iot', instance.iot)
