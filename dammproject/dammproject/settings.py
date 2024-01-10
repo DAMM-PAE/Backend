@@ -164,6 +164,7 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_WHITELIST = [
     "http://nattech.fib.upc.edu:40540",
     "http://localhost:3000",
+    "http://localhost:8081",
 
 ]
 
