@@ -14,7 +14,6 @@ dates_str = [
 
 # Convertir las fechas a números ordinales y normalizar
 dates = [datetime.strptime(d, '%Y-%m-%d').toordinal() for d in dates_str]
-print(dates)
 max_date = 1
 normalized_dates = [d / max_date for d in dates]
 
@@ -36,6 +35,9 @@ model.compile(optimizer='adam', loss='mse')
 model.fit(train_dates, train_labels, epochs=1000, verbose=0)
 
 # Predecir la siguiente fecha
+from datetime import date
+# Get the current date
+today = date.today().strftime("%Y-%m-%d")
 last_date_normalized = datetime.strptime('2024-01-12', '%Y-%m-%d').toordinal()
 predicted_next_date_normalized = model.predict([last_date_normalized])[0][0]
 predicted_next_date = datetime.fromordinal(int(predicted_next_date_normalized * max_date))
