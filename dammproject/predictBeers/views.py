@@ -211,8 +211,11 @@ class BarList(APIView):
     def get(self, request, format=None):
         bars = Bar.objects.exclude(latitud=True, longitud=True)
         for bar in bars:
-            #updatePredicciones(bar)
-            updateIOT(bar)
+            
+
+            if bar.data < date.today():
+                updatePredicciones(bar,date.today().strftime("%Y-%m-%d"))
+                updateIOT(bar)
         
         serializer = BarSerializer(bars, many=True)
         return Response(serializer.data)
