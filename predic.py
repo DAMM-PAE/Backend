@@ -12,34 +12,73 @@ dates_str = [
     '2022-12-13', '2022-12-30'
 ]
 
-# Convertir las fechas a números ordinales y normalizar
-dates = [datetime.strptime(d, '%Y-%m-%d').toordinal() for d in dates_str]
-max_date = 1
-normalized_dates = [d / max_date for d in dates]
+# # Convertir las fechas a números ordinales y normalizar
+# dates = [datetime.strptime(d, '%Y-%m-%d').toordinal() for d in dates_str]
+# max_date = 1
+# normalized_dates = [d / max_date for d in dates]
 
-# Datos de entrenamiento (todas menos la última fecha)
-train_dates = normalized_dates[:-1]
-train_labels = normalized_dates[1:]
+# # Datos de entrenamiento (todas menos la última fecha)
+# train_dates = normalized_dates[:-1]
+# train_labels = normalized_dates[1:]
 
-# Modelo
-model = tf.keras.Sequential([
-    tf.keras.layers.Dense(64, activation='relu', input_shape=(1,)),
-    tf.keras.layers.Dense(64, activation='relu'),
-    tf.keras.layers.Dense(1)
-])
+# # Modelo
+# model = tf.keras.Sequential([
+#     tf.keras.layers.Dense(64, activation='relu', input_shape=(1,)),
+#     tf.keras.layers.Dense(64, activation='relu'),
+#     tf.keras.layers.Dense(1)
+# ])
 
-# Compilar el modelo
-model.compile(optimizer='adam', loss='mse')
+# # Compilar el modelo
+# model.compile(optimizer='adam', loss='mse')
 
-# Entrenar el modelo
-model.fit(train_dates, train_labels, epochs=1000, verbose=0)
+# # Entrenar el modelo
+# model.fit(train_dates, train_labels, epochs=1000, verbose=0)
 
-# Predecir la siguiente fecha
-from datetime import date
-# Get the current date
-today = date.today().strftime("%Y-%m-%d")
-last_date_normalized = datetime.strptime('2024-01-12', '%Y-%m-%d').toordinal()
-predicted_next_date_normalized = model.predict([last_date_normalized])[0][0]
-predicted_next_date = datetime.fromordinal(int(predicted_next_date_normalized * max_date))
+# # Predecir la siguiente fecha
+# from datetime import date
+# # Get the current date
+# today = date.today().strftime("%Y-%m-%d")
+# last_date_normalized = datetime.strptime('2024-01-12', '%Y-%m-%d').toordinal()
+# predicted_next_date_normalized = model.predict([last_date_normalized])[0][0]
+# predicted_next_date = datetime.fromordinal(int(predicted_next_date_normalized * max_date))
 
-print(f'Fecha predicha para la próxima entrega: {predicted_next_date.strftime("%Y-%m-%d")}')
+# print(f'Fecha predicha para la próxima entrega: {predicted_next_date.strftime("%Y-%m-%d")}')
+
+
+def trainModel(dates):
+    # Convertir las fechas a números ordinales y normalizar
+    dates = [datetime.strptime(d, '%Y-%m-%d').toordinal() for d in dates]
+    max_date = 1
+    normalized_dates = [d / max_date for d in dates]
+
+    # Datos de entrenamiento (todas menos la última fecha)
+    train_dates = normalized_dates[:-1]
+    train_labels = normalized_dates[1:]
+
+    # Modelo
+    model = tf.keras.Sequential([
+        tf.keras.layers.Dense(64, activation='relu', input_shape=(1,)),
+        tf.keras.layers.Dense(64, activation='relu'),
+        tf.keras.layers.Dense(1)
+    ])
+
+    # Compilar el modelo
+    model.compile(optimizer='adam', loss='mse')
+
+    # Entrenar el modelo
+    model.fit(train_dates, train_labels, epochs=1000, verbose=0)
+
+    return model
+
+def predictNextDate(model,last_date):
+    last_date_normalized = datetime.strptime(last_date, '%Y-%m-%d').toordinal()
+    predicted_next_date_normalized = model.predict([last_date_normalized])[0][0]
+    predicted_next_date = datetime.fromordinal(int(predicted_next_date_normalized ))
+    return predicted_next_date.strftime("%Y-%m-%d")
+
+
+model = trainModel(dates_str)
+print(predictNextDate(model,"2022-01-11"))
+
+## save model
+model.save('dammproject/my_model.h5')

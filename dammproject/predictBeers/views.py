@@ -8,8 +8,13 @@ import pandas as pd
 import datetime
 from datetime import date, timedelta
 import random 
-
 from rest_framework.decorators import api_view ,renderer_classes
+
+# Load tensorflow model
+import tensorflow as tf
+model = tf.keras.models.load_model('my_model.h5')
+
+
 
 @api_view(('GET',))
 def dataUpdate(request,id):
@@ -140,18 +145,30 @@ class InitData(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
-def updatePredicciones(bar):
-    current_datetime = datetime.datetime.now()
-    one_week_later = current_datetime + timedelta(days=random.randint(1, 90))
-    one_week_later = one_week_later.date()
+def updatePredicciones(bar,day):
+    
+    # ## Obtenemos las entregas del bar
+    # entregas = Entregas.objects.filter(idCliente=bar)
+    # ## Obtenemos las fechaPedido de las entregas
+    # dates_str = [entrega.fechaPedido.strftime("%Y-%m-%d") for entrega in entregas]
+    # print(dates_str)
+    
+    prediction = predictNextDate(day)
+    print(prediction)
+    bar.data = prediction
+    bar.save()
+    
+    # current_datetime = datetime.datetime.now()
+    # one_week_later = current_datetime + timedelta(days=random.randint(1, 90))
+    # one_week_later = one_week_later.date()
     
 
-    if bar.data is None:
-        bar.data = one_week_later
-        bar.save()
-    if bar.data < current_datetime.date():
-        bar.data = one_week_later
-        bar.save()
+    # if bar.data is None:
+    #     bar.data = one_week_later
+    #     bar.save()
+    # if bar.data < current_datetime.date():
+    #     bar.data = one_week_later
+    #     bar.save()
 
 def updateIOT(bar):
     if bar.iot is None:
@@ -194,7 +211,7 @@ class BarList(APIView):
     def get(self, request, format=None):
         bars = Bar.objects.exclude(latitud=True, longitud=True)
         for bar in bars:
-            updatePredicciones(bar)
+            #updatePredicciones(bar)
             updateIOT(bar)
         
         serializer = BarSerializer(bars, many=True)
@@ -223,7 +240,7 @@ class BarDetail(APIView):
 
     def get(self, request, pk, format=None):
         bar = self.get_object(pk)
-        updatePredicciones(bar)
+        #updatePredicciones(bar)
         updateIOT(bar)
         
         serializer = BarSerializer(bar)
@@ -256,9 +273,10 @@ class EntregasList(APIView):
 
     def post(self, request, format=None):
         idClient = request.data['idCliente']
+        fechaPedido = request.data['fechaPedido']
         serializer = EntregasSerializer(data=request.data)
         bar = Bar.objects.get(id=idClient)
-        updatePredicciones(bar)
+        updatePredicciones(bar,fechaPedido)
         bar.urgent = False
         bar.save()
         if serializer.is_valid():
@@ -462,3 +480,11 @@ class PrediccionList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+from datetime import datetime
+def predictNextDate(last_date):
+    global model
+    last_date_normalized = datetime.strptime(last_date, '%Y-%m-%d').toordinal()
+    predicted_next_date_normalized = model.predict([last_date_normalized])[0][0]
+    predicted_next_date = datetime.fromordinal(int(predicted_next_date_normalized ))
+    return predicted_next_date.strftime("%Y-%m-%d")
