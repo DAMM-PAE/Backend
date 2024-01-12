@@ -212,10 +212,15 @@ class BarList(APIView):
         bars = Bar.objects.exclude(latitud=True, longitud=True)
         for bar in bars:
             try:
+                if bar.data is None:
+                    updatePredicciones(bar,date.today().strftime("%Y-%m-%d"))
+                    updateIOT(bar)
 
                 if bar.data < date.today().strftime("%Y-%m-%d"):
                     updatePredicciones(bar,date.today().strftime("%Y-%m-%d"))
                     updateIOT(bar)
+
+                
             except:
                 continue
         
